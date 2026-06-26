@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Now - Purani Dukan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-container">
+                <img src="images/logo1.jpeg" alt="Purani Dukan Logo">
+            </div>
+            <div class="logo">PURANI DUKAN</div>
+            <nav>
+                <a href="home.html">Home</a> | 
+                <a href="Male.html">Male</a> | 
+                <a href="female.html">Female</a> | 
+                <a href="cosmetics.html">Cosmetics</a> | 
+                <a href="order.html">Order</a> | 
+                <a href="orders.html">My Orders</a>
+            </nav>
+        </header>
+
+        <main style="padding: 20px; flex: 1;">
+            <div class="card">
+                <h2>Order Details</h2>
+                <form action="http://127.0.0.1:5000/order" method="POST">
+                    <input type="hidden" name="product" id="productInput" value="">
+                    <input type="hidden" name="product_price" id="productPriceInput" value="0">
+                    <input type="hidden" name="delivery_charges" id="deliveryChargesInput" value="250">
+
+                    <label style="font-weight: 600; color: #00a5cd; display: block; margin-bottom: 5px;">Product</label>
+                    <input type="text" id="productDisplay" value="" readonly style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; background: #f0f0f0;">
+
+                    <label style="font-weight: 600; color: #00a5cd; display: block; margin-bottom: 5px;">Name</label>
+                    <input type="text" name="name" placeholder="Enter your full name" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+
+                    <label style="font-weight: 600; color: #00a5cd; display: block; margin-bottom: 5px;">Phone Number</label>
+                    <input type="tel" name="phone" placeholder="Enter your phone number" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+
+                    <label style="font-weight: 600; color: #00a5cd; display: block; margin-bottom: 5px;">Address</label>
+                    <textarea name="address" placeholder="Enter your complete address" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; min-height: 80px;"></textarea>
+
+                    <label style="font-weight: 600; color: #00a5cd; display: block; margin-bottom: 5px;">Region</label>
+                    <select name="region" id="region" onchange="calculateTotal()" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="Sindh">Sindh (Rs 250)</option>
+                        <option value="Punjab">Punjab (Rs 300)</option>
+                        <option value="KPK/Gilgit/Balochistan">KPK, Gilgit, Balochistan (Rs 350)</option>
+                    </select>
+
+                    <div style="background: #e0f7fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <p style="margin: 5px 0;"><strong>Product Price:</strong> Rs <span id="price">0</span></p>
+                        <p style="margin: 5px 0;"><strong>Delivery Charges:</strong> Rs <span id="delivery">250</span></p>
+                        <h3 style="margin: 10px 0 0 0; color: #00a5cd;">Total Amount: Rs <span id="total">250</span></h3>
+                    </div>
+
+                    <button type="submit" style="width: 100%; padding: 14px; background: linear-gradient(180deg, #00a5cd 0%, #2b92bd 100%); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: 700; font-size: 16px;">Place Order</button>
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-nav" style="margin-bottom: 15px;">
+                <a href="home.html">Home</a> | 
+                <a href="cosmetics.html">Cosmetics</a> | 
+                <a href="order.html">Order</a> | 
+                <a href="orders.html">My Orders</a>
+            </div>
+            <div class="contact-footer" style="font-size: 12px; margin-bottom: 10px;">
+                <p>Email: puranidukan@gmail.com</p>
+                <a href="https://wa.me/923343876269" style="color: #86efac; text-decoration: none; font-weight: bold;">
+                    WhatsApp: 0334-3876269
+                </a>
+            </div>
+            <p>&copy; 2026 Purani Dukan | Nawabshah</p>
+        </footer>
+
+        <div class="icon-container">
+            <a href="https://wa.me/923343876269" class="circle-icon whatsapp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="order.html" class="circle-icon order">
+                <i class="fas fa-shopping-bag"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Read product and price from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const product = urlParams.get('product') || 'General Product';
+        const price = parseInt(urlParams.get('price')) || 0;
+
+        document.getElementById('productInput').value = product;
+        document.getElementById('productDisplay').value = product;
+        document.getElementById('price').innerText = price;
+        document.getElementById('productPriceInput').value = price;
+
+        function calculateTotal() {
+            let productPrice = parseInt(document.getElementById('price').innerText) || 0;
+            let regionSelect = document.getElementById('region');
+            let delivery = 250;
+
+            if (regionSelect.value === 'Punjab') delivery = 300;
+            else if (regionSelect.value === 'KPK/Gilgit/Balochistan') delivery = 350;
+
+            document.getElementById('delivery').innerText = delivery;
+            document.getElementById('total').innerText = productPrice + delivery;
+            document.getElementById('deliveryChargesInput').value = delivery;
+        }
+
+        // Calculate total on page load
+        calculateTotal();
+    </script>
+</body>
+</html>

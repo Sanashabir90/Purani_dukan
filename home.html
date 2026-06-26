@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Purani Dukan</title>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-container">
+                <img src="images/logo1.jpeg" alt="Purani Dukan Logo">
+            </div>
+            <div class="logo">PURANI DUKAN</div>
+            <nav>
+                <a href="home.html">Home</a> | 
+                <a href="Male.html">Male</a> | 
+                <a href="female.html">Female</a> | 
+                <a href="cosmetics.html">Cosmetics</a> | 
+                <a href="order.html">Order</a> | 
+                <a href="orders.html">My Orders</a>
+            </nav>
+        </header>
+
+        <div class="banner-container">
+            <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314" alt="Premium Watch" class="banner-img">
+            <div class="banner-text">
+                <h1>Purani Dukan</h1>
+                <p>Premium Watches & Cosmetics Collection</p>
+                <button onclick="location.href='catalog.html'">Explore Entire Catalog</button>
+            </div>
+        </div>
+
+        <section>
+            <h2 style="text-align: center; margin-top: 30px;">Explore Our Products</h2>
+            <div class="grid">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314" alt="Watches">
+                    <h3>Watches</h3>
+                    <p class="caption">Explore our stylish collection</p>
+                    <div class="selection-btns">
+                        <button onclick="location.href='Male.html'">Male</button>
+                        <button onclick="location.href='female.html'">Female</button>
+                    </div>
+                </div>
+                <div class="card" onclick="location.href='cosmetics.html'" style="cursor: pointer;">
+                    <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348" alt="Cosmetics">
+                    <h3>Cosmetics</h3>
+                    <p class="caption">Premium beauty products</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="delivery-info">
+            <p><strong>Delivery Charges All Over Pakistan:</strong> Sindh: Rs. 250 | Punjab: Rs. 300 | KPK: Rs. 350 | Gilgit & Balochistan: Rs. 350</p>
+        </div>
+
+        <footer>
+            <div class="footer-nav">
+                <a href="home.html">Home</a> | <a href="Male.html">Male</a> | <a href="female.html">Female</a> | <a href="cosmetics.html">Cosmetics</a> | <a href="order.html">Order</a> | <a href="orders.html">My Orders</a>
+            </div>
+            <a href="https://wa.me/923343876269" class="wa-link">
+                <span class="icon">&#128172;</span> WhatsApp Us
+            </a>
+            <p>&#128231; puranidukan@gmail.com</p>
+            <p class="caption">&#10024; "Quality that defines you." &#10024;</p>
+        </footer>
+
+        <div class="icon-container">
+            <a href="https://wa.me/923343876269" class="circle-icon whatsapp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="order.html" class="circle-icon order">
+                <i class="fas fa-shopping-bag"></i>
+            </a>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

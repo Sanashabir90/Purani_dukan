@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders - Purani Dukan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .orders-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
+        .orders-table th { background: #00a5cd; color: white; padding: 10px; text-align: left; }
+        .orders-table td { padding: 8px; border-bottom: 1px solid #e0f7fa; }
+        .orders-table tr:hover { background: #f0f9ff; }
+        .status-pending { color: #ff9800; font-weight: 700; }
+        .status-confirmed { color: #4caf50; font-weight: 700; }
+        .status-delivered { color: #2196f3; font-weight: 700; }
+        .no-orders { text-align: center; padding: 40px; color: #78909c; }
+        .refresh-btn { 
+            display: inline-block; 
+            background: linear-gradient(180deg, #00a5cd 0%, #2b92bd 100%); 
+            color: white; 
+            padding: 8px 20px; 
+            border-radius: 20px; 
+            text-decoration: none; 
+            font-weight: 600; 
+            margin-bottom: 15px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-container">
+                <img src="images/logo1.jpeg" alt="Purani Dukan Logo">
+            </div>
+            <div class="logo">PURANI DUKAN</div>
+            <nav>
+                <a href="home.html">Home</a> | 
+                <a href="Male.html">Male</a> | 
+                <a href="female.html">Female</a> | 
+                <a href="cosmetics.html">Cosmetics</a> | 
+                <a href="order.html">Order</a> | 
+                <a href="orders.html">My Orders</a>
+            </nav>
+        </header>
+
+        <main style="padding: 20px; flex: 1;">
+            <div class="card">
+                <h2>&#128230; My Orders</h2>
+                <button class="refresh-btn" onclick="loadOrders()">&#128260; Refresh Orders</button>
+                <div id="ordersContainer">
+                    <p class="no-orders">Loading orders...</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-nav">
+                <a href="home.html">Home</a> | <a href="Male.html">Male</a> | <a href="female.html">Female</a> | <a href="cosmetics.html">Cosmetics</a> | <a href="order.html">Order</a> | <a href="orders.html">My Orders</a>
+            </div>
+            <a href="https://wa.me/923343876269" class="wa-link">
+                <span class="icon">&#128172;</span> WhatsApp Us
+            </a>
+            <p>&#128231; puranidukan@gmail.com</p>
+            <p class="caption">&#10024; "Quality that defines you." &#10024;</p>
+        </footer>
+
+        <div class="icon-container">
+            <a href="https://wa.me/923343876269" class="circle-icon whatsapp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="order.html" class="circle-icon order">
+                <i class="fas fa-shopping-bag"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        async function loadOrders() {
+            const container = document.getElementById('ordersContainer');
+            container.innerHTML = '<p class="no-orders">Loading orders...</p>';
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/orders');
+                const orders = await response.json();
+
+                if (orders.length === 0) {
+                    container.innerHTML = '<p class="no-orders">No orders yet. <a href="home.html">Shop Now</a></p>';
+                    return;
+                }
+
+                let html = '<table class="orders-table"><thead><tr>';
+                html += '<th>ID</th><th>Product</th><th>Name</th><th>Phone</th><th>Region</th><th>Price</th><th>Delivery</th><th>Total</th><th>Status</th><th>Date</th>';
+                html += '</tr></thead><tbody>';
+
+                orders.forEach(order => {
+                    let statusClass = 'status-pending';
+                    if (order.status === 'Confirmed') statusClass = 'status-confirmed';
+                    if (order.status === 'Delivered') statusClass = 'status-delivered';
+
+                    html += `<tr>
+                        <td>#${order.id}</td>
+                        <td><strong>${order.product}</strong></td>
+                        <td>${order.name}</td>
+                        <td>${order.phone}</td>
+                        <td>${order.region}</td>
+                        <td>Rs ${order.product_price}</td>
+                        <td>Rs ${order.delivery_charges}</td>
+                        <td><strong>Rs ${order.total_amount}</strong></td>
+                        <td class="${statusClass}">${order.status}</td>
+                        <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                    </tr>`;
+                });
+
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } catch (error) {
+                container.innerHTML = '<p class="no-orders">Error loading orders. Make sure backend is running at http://127.0.0.1:5000</p>';
+            }
+        }
+
+        // Load orders on page load
+        loadOrders();
+    </script>
+</body>
+</html>
